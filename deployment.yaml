@@ -1,21 +1,36 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-app
+  name: webproject
   labels:
-    app: web-app
+    app: webproject
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: web-app
+      app: webproject
   template:
     metadata:
       labels:
-        app: web-app
+        app: webproject
     spec:
       containers:
       - name: webproject
-        image: chndra/webproject:335
+        image: chndra/webproject:996
         ports:
         - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webproject
+  labels:
+    app: webproject
+spec:
+  type: LoadBalancer
+  ports:  
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: webproject
