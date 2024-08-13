@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+    tools {
+	    // Tools configuration
+	    maven "MavenV3"
+	    jdk "JavaJDK11"
+	}
+
+    environment {
+        AWS_ACCOUNT_ID="025066273378"
+        AWS_DEFAULT_REGION="us-east-1"
+        IMAGE_REPO_NAME="webapplication"
+        IMAGE_TAG="v1"
+        REPOSITORY_URI ="025066273378.dkr.ecr.us-east-1.amazonaws.com/webapplication"
+    }
+   
+    stages {
+        
+         stage('Logging into AWS ECR') {
+            steps {
+                script {
+                sh """aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 025066273378.dkr.ecr.us-east-1.amazonaws.com"""
+                }
+               
+            }
+        }
+        
+        stage('Cloning Git') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/azurebose/webapplication']])     
+            }
+        }
+        
+         stage("Build"){
+            steps{
+                sh " mvn clean install"
+            }
+        }
+  
+     // Building Docker images
+      stage('Building image') {
+        steps{
+          script {
+          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+        }
+      }
+    }
+   
+    // Uploading Docker images into AWS ECR
+     stage('Pushing to ECR') {
+       steps{  
+         script {
+                sh """docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"""
+                sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
+         }
+        }
+      }
+    }
+}
