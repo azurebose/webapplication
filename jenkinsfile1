@@ -2,8 +2,8 @@ pipeline {
     agent any
     tools {
 	    // Tools configuration
-	    maven "MavenV3"
-	    jdk "JavaJDK11"
+	    maven "maven3"
+	    jdk "jdk11"
 	}
 
     environment {
@@ -11,7 +11,7 @@ pipeline {
         AWS_DEFAULT_REGION="us-east-1"
         IMAGE_REPO_NAME="webapplication"
         IMAGE_TAG="v1"
-        REPOSITORY_URI ="025066273378.dkr.ecr.us-east-1.amazonaws.com/webapplication"
+        REPOSITORY_URI ="025066273378.dkr.ecr.us-east-1.amazonaws.com/webapplication1"
     }
    
     stages {
