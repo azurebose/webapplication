@@ -1,0 +1,13 @@
+# Stage 1: Build
+FROM maven:3.6.1-jdk-8 as builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package
+
+# Stage 2: Run
+FROM tomcat:8-jre8-slim
+RUN rm -fr /usr/local/tomcat/webapps/ROOT
+COPY --from=builder /app/target/web-application.war /usr/local/tomcat/webapps/ROOT.war
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
