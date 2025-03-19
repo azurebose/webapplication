@@ -2,8 +2,8 @@
 set -x
 
 # Define variables for container registry, image repository, and tag
-containerRegistry="ciproject.azurecr.io" #give your project name 
-imageRepository="ciprojectvotingapplication" # give your microservice name 
+containerRegistry="https://hub.docker.com/repositories/chndra" #give your project name 
+imageRepository="chndra/webproject" # give your microservice name 
 tag=$1  # This will be passed as an argument to the script
 
 echo "Container Registry: ${containerRegistry}"
@@ -11,7 +11,7 @@ echo "Image Repository: ${imageRepository}"
 echo "Tag: ${tag}"
 
 # Define the repository URL
-REPO_URL="https://<access-token>/<account-name>/<project-name>"
+REPO_URL="https://github.com/azurebose/webapplication.git"
 
 # Clone the git repository into the /tmp directory
 rm -rf /tmp/temp_repo
@@ -28,7 +28,7 @@ git rebase origin/main || { echo "Failed to rebase"; exit 1; }
 git pull origin main || { echo "Failed to pull latest changes"; exit 1; }
 
 # Construct the file path for the deployment YAML
-deployment_file="k8s-specifications/vote-deployment.yaml"
+deployment_file= deployment.yaml"
 
 # Check if the deployment YAML file exists
 if [ ! -f "$deployment_file" ]; then
