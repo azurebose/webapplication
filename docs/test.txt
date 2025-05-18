@@ -1,7 +1,0 @@
-Summary
-Testing can be separated into 4 different stages — DEV, SIT, UAT and PROD.
-DEV is a test carried out by the software developers who made the functions.
-SIT is a test for the interface between different modules which is a small part of a single feature.
-UAT is carried out by client and probably a small group of registered tester. Client can use the TestFlight and Play Store to distribute testing app to register testers remotely. A lots of feedback on feature and user experience can be gathered at this stage.
-PROD is the stage where app has been publicly released. Much larger group of user can use and test on the new features. Unexpected bugs and issues can be found and reported by Google tools Crashlytics. UI/UX designer and developers can enhance the app by these information.
-
