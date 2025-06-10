@@ -28,9 +28,10 @@ metadata:
   labels:
     app: webproject
 spec:
-  type: LoadBalancer
-  ports:  
+  type: NodePort
+  ports:
     - port: 80
       targetPort: 8080
+      nodePort: 30080  # Optional: can be any value between 30000-32767
   selector:
     app: webproject
