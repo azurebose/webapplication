@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webapplication
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/azurebose/webapplication.git'
+    targetRevision: HEAD
+    path: charts/webapplication
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: webapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
