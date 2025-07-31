@@ -1,4 +1,4 @@
-name: PR Preview Deployment (via ArgoCD)
+name:  Deployment in ArgoCD
 
 on:
   pull_request:
@@ -23,18 +23,18 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build --file Dockerfile1 -t ${{ secrets.DOCKERHUB_USERNAME }}/githubimage:1.1 .
+          docker build --file Dockerfile1 -t ${{ secrets.DOCKERHUB_USERNAME }}/webproject:1.2 .
 
       - name: Push the Docker image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/githubimage:1.1
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/webproject:1.2
 
       - name: Show deployment.yaml before replacement
         run: cat deployment.yaml
 
       - name: Replace image tag in manifest
         run: |
-          sed -i "s|image: chndra/githubimage:1.*|image: chndra/githubimage:${{ github.sha }}|" deployment.yaml
+          sed -i "s|image: chndra/webproject:1.*|image: chndra/webproject:${{ github.sha }}|" deployment.yaml
 
       - name: Show deployment.yaml after replacement
         run: cat deployment.yaml
