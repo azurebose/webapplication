@@ -17,7 +17,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker build -t chndra/webproject:$IMAGE_TAG .
+          docker build --file Dockerfile1 -t chndra/webproject:$IMAGE_TAG .
           docker push chndra/webproject:$IMAGE_TAG
 
       - name: Replace image tag in manifest
