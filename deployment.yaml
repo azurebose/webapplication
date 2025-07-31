@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: webproject
-        image: chndra/webproject:1017
+        image: chndra/webproject:beta1.1
         ports:
         - containerPort: 8080
 ---
