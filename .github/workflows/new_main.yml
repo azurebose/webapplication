@@ -23,15 +23,15 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build --file Dockerfile1 -t ${{ secrets.DOCKERHUB_USERNAME }}/githubimage:1.1 .
+          docker build --file Dockerfile1 -t ${{ secrets.DOCKERHUB_USERNAME }}/githubimage:latest .
 
       - name: Push the Docker image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/githubimage:1.1
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/githubimage:latest
 
       - name: Replace image tag in manifest
         run: |
-          sed -i "s|image: chndra/githubimage:1.*|image: chndra/githubimage:${{ github.sha }}|" deployment.yaml  # Corrected image name
+          sed -i "s|image: chndra/githubimage:*|image: chndra/githubimage:${{ github.sha }}|" deployment.yaml  # Corrected image name
 
       - name: Commit and push updated manifest
         uses: stefanzweifel/git-auto-commit-action@v5
